@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gadget In Budget - বাজেটের মধ্যে সেরা গ্যাজেট</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- PDF লাইব্রেরি -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- হেডার -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">Gadget<span>InBudget</span></a>
+      <div class="header-actions">
+        <!-- উইশলিস্ট বাটন -->
+        <button class="icon-btn wishlist-icon-btn" onclick="openWishlist()" title="পছন্দের তালিকা">
+          <i class="far fa-heart"></i>
+          <span class="badge-count wishlist-count" id="wishlistCountBadge">0</span>
+        </button>
+        <!-- শপিং কার্ট বাটন -->
+        <button class="icon-btn cart-icon-btn" onclick="openCart()" title="শপিং কার্ট">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="badge-count cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- হিরো ব্যানার -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>বাজেটের মধ্যে সেরা সব গ্যাজেট</h1>
+      <p>স্মার্টওয়াচ, এয়ারবাডস থেকে শুরু করে প্রিমিয়াম এক্সেসরিজ—সবকিছু আপনার সাধ্যের ভেতর।</p>
+      <a href="#products-section" class="hero-btn">কালেকশন দেখুন</a>
+    </div>
+  </section>
+
+  <!-- ক্যাটাগরি পিলস -->
+  <section class="category-section">
+    <div class="category-tabs" id="categoryTabs"></div>
+  </section>
+
+  <!-- প্রোডাক্ট গ্রিড -->
+  <main class="products-section" id="products-section">
+    <div class="section-header">
+      <h2>বাজেট অফার গ্যাজেটসমূহ</h2>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </main>
+
+  <!-- প্রোডাক্ট কুইক ভিউ পপআপ মডাল -->
+  <div class="product-modal-overlay" id="productModalOverlay" onclick="closeProductModal()"></div>
+  <div class="product-quick-modal" id="productQuickModal">
+    <button class="modal-close-icon" onclick="closeProductModal()">&times;</button>
+    <div class="quick-modal-body" id="quickModalBody"></div>
+  </div>
+
+  <!-- উইশলিস্ট ড্রয়ার -->
+  <div class="cart-overlay" id="wishlistOverlay" onclick="closeWishlist()"></div>
+  <aside class="cart-drawer" id="wishlistDrawer">
+    <div class="cart-header">
+      <h3><i class="fas fa-heart" style="color:#ef4444;"></i> পছন্দের তালিকা</h3>
+      <button class="close-cart-btn" onclick="closeWishlist()">&times;</button>
+    </div>
+    <div class="cart-items" id="wishlistItemsContainer"></div>
+  </aside>
+
+  <!-- শপিং কার্ট ড্রয়ার -->
+  <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fas fa-shopping-bag"></i> শপিং কার্ট</h3>
+      <button class="close-cart-btn" onclick="closeCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>সাবটোটাল:</span>
+        <span id="cartTotalPrice">৳ 0</span>
+      </div>
+      <button class="checkout-btn" onclick="goToCheckout()">চেকআউট করুন</button>
+    </div>
+  </aside>
+
+  <!-- চেকআউট পপআপ মডাল -->
+  <div class="checkout-modal" id="checkoutModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" onclick="closeCheckout()">&times;</button>
+      <h3>অর্ডার সম্পন্ন করুন</h3>
+      <div class="order-summary-box" id="orderSummaryBox"></div>
+      
+      <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+        <div class="form-group">
+          <label>আপনার নাম *</label>
+          <input type="text" id="custName" required placeholder="সম্পূর্ণ নাম লিখুন">
+        </div>
+        <div class="form-group">
+          <label>মোবাইল নম্বর *</label>
+          <div class="phone-input-wrap">
+            <span class="country-prefix">+880</span>
+            <input type="tel" id="custPhone" required placeholder="1XXXXXXXXX" maxlength="11">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>ডেলিভারি এরিয়া বেছে নিন *</label>
+          <div style="display:flex; gap:16px; margin-top:6px;">
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="radio" name="deliveryArea" value="inside" checked onchange="updateCheckoutTotal()">
+              ঢাকার ভিতরে (<span id="insideRateLabel">৳60</span>)
+            </label>
+            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <input type="radio" name="deliveryArea" value="outside" onchange="updateCheckoutTotal()">
+              ঢাকার বাইরে (<span id="outsideRateLabel">৳120</span>)
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>সম্পূর্ণ ডেলিভারি ঠিকানা *</label>
+          <textarea id="custAddress" required placeholder="বাসা/রোড নম্বর, এলাকা, থানা, জেলা"></textarea>
+        </div>
+
+        <!-- কুপন কোড ইনপুট -->
+        <div class="form-group">
+          <label>কুপন কোড (যদি থাকে)</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="checkoutCouponInput" placeholder="যেমন: EID200" style="text-transform:uppercase; flex:1;">
+            <button type="button" onclick="applyCouponCode()" style="background:#2563eb; color:#fff; border:none; padding:0 14px; border-radius:8px; font-weight:600; font-size:12px; cursor:pointer; white-space:nowrap;">
+              প্রয়োগ করুন
+            </button>
+          </div>
+          <div id="couponStatusMsg" style="font-size:12px; margin-top:5px; font-weight:500;"></div>
+        </div>
+
+        <div class="checkout-grand-total" style="background:#1e293b; padding:10px 14px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-weight:700; margin-bottom:12px;">
+          <span>সর্বমোট বিল (চার্জ সহ):</span>
+          <div style="text-align:right;">
+            <div id="couponDiscountRow" style="display:none; font-size:12px; color:#10b981; margin-bottom:2px;">ছাড়: -৳<span id="couponDiscountVal">0</span></div>
+            <span style="color:#60a5fa; font-size:16px;" id="checkoutGrandTotal">৳ 0</span>
+          </div>
+        </div>
+        <button type="submit" class="confirm-order-btn">অর্ডার নিশ্চিত করুন (ক্যাশ অন ডেলিভারি)</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- অর্ডার ইনভয়েস পপআপ ও PDF ডাউনলোড মডাল -->
+  <div class="checkout-modal" id="invoiceModal">
+    <div class="modal-content invoice-modal-card" style="background:#ffffff !important; max-width:520px; padding:20px; border-radius:12px;">
+      <button class="modal-close-btn" onclick="closeInvoiceModal()" style="color:#0f172a; font-size:24px; font-weight:bold; cursor:pointer;">&times;</button>
+      
+      <!-- ইনভয়েস মেমো (প্রিন্ট এলাকা) -->
+      <div id="invoicePrintArea" class="invoice-container" style="background:#ffffff; color:#000000; padding:15px; font-family:sans-serif;">
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #2563eb; padding-bottom:10px;">
+          <div>
+            <h2 style="margin:0; font-size:20px; color:#0f172a;">Gadget<span style="color:#2563eb;">InBudget</span></h2>
+            <small style="color:#64748b;">Invoice Receipt</small>
+          </div>
+          <div style="background:#dcfce7; color:#166534; font-size:12px; font-weight:bold; padding:4px 10px; border-radius:20px;">
+            ORDER CONFIRMED
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; margin-top:14px; font-size:12px; color:#334155; line-height:1.6;">
+          <div>
+            <p style="margin:2px 0;"><strong>Order ID:</strong> <span id="invOrderNo"></span></p>
+            <p style="margin:2px 0;"><strong>Date:</strong> <span id="invDate"></span></p>
+            <p style="margin:2px 0;"><strong>Payment:</strong> Cash on Delivery</p>
+          </div>
+          <div style="text-align:right;">
+            <p style="margin:2px 0;"><strong>Customer:</strong> <span id="invCustName"></span></p>
+            <p style="margin:2px 0;"><strong>Phone:</strong> <span id="invCustPhone"></span></p>
+            <p style="margin:2px 0;"><strong>Address:</strong> <span id="invCustAddress"></span></p>
+          </div>
+        </div>
+        
+        <table style="width:100%; border-collapse:collapse; margin-top:16px;">
+          <thead>
+            <tr style="background:#f1f5f9; color:#1e293b; font-size:12px;">
+              <th style="padding:8px; text-align:left;">Product</th>
+              <th style="padding:8px; text-align:center;">Qty</th>
+              <th style="padding:8px; text-align:right;">Price</th>
+            </tr>
+          </thead>
+          <tbody id="invItemsBody"></tbody>
+        </table>
+
+        <div style="width:230px; margin-left:auto; margin-top:14px; font-size:12px; color:#334155;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span>Subtotal:</span> <span id="invSubTotal">Tk 0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span>Delivery:</span> <span id="invDeliveryCharge">Tk 0</span>
+          </div>
+          <div id="invDiscountRow" style="display:none; justify-content:space-between; color:#10b981; margin-bottom:4px;">
+            <span>Discount:</span> <span id="invDiscount">Tk 0</span>
+          </div>
+          <div style="border-top:1px solid #cbd5e1; padding-top:6px; margin-top:6px; display:flex; justify-content:space-between; font-weight:bold; font-size:14px; color:#0f172a;">
+            <span>Total Payable:</span> <span id="invGrandTotal">Tk 0</span>
+          </div>
+        </div>
+
+        <div style="text-align:center; font-size:11px; color:#64748b; margin-top:20px; border-top:1px dashed #cbd5e1; padding-top:10px;">
+          <p style="margin:2px 0;">Thank you for shopping with Gadget In Budget!</p>
+          <small>Hotline: +880 1815-701085</small>
+        </div>
+      </div>
+
+      <!-- ইনভয়েস অ্যাকশন বাটনসমূহ -->
+      <div style="display:flex; gap:10px; margin-top:16px; padding:0 4px;">
+        <button type="button" onclick="downloadInvoicePDF()" style="flex:1; background:#2563eb; color:#ffffff; border:none; padding:12px; border-radius:8px; font-size:14px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+          <i class="fas fa-file-pdf"></i> PDF ডাউনলোড করুন
+        </button>
+        <button type="button" onclick="closeInvoiceModal()" style="background:#e2e8f0; color:#1e293b; border:none; padding:12px 18px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer;">
+          বন্ধ করুন
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- লাইভ ফুটার -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col brand-col">
+        <h3 class="footer-logo">Gadget<span>InBudget</span></h3>
+        <p>আমরা দিচ্ছি সাশ্রয়ী মূল্যে সর্বোচ্চ কোয়ালিটির স্মার্ট গ্যাজেট, দ্রুততম ডেলিভারি ও বিশ্বস্ত ওয়ারেন্টি সুবিধা।</p>
+        <div class="footer-socials">
+          <a href="#" id="footerFb" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" id="footerInsta" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" id="footerYt" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>কুইক লিংক</h4>
+        <ul>
+          <li><a href="#products-section">সকল গ্যাজেট</a></li>
+          <li><a href="javascript:void(0)" onclick="openWishlist()">পছন্দের তালিকা</a></li>
+          <li><a href="javascript:void(0)" onclick="openCart()">শপিং কার্ট</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>গ্রাহক সেবা ও পলিসি</h4>
+        <ul>
+          <li><a href="#">৭ দিনের রিপ্লেসমেন্ট পলিসি</a></li>
+          <li><a href="#">ডেলিভারি চার্জ ও সময়</a></li>
+          <li><a href="#">প্রাইভেসি ও শর্তাবলী</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col contact-col">
+        <h4>সরাসরি যোগাযোগ</h4>
+        <p><i class="fab fa-whatsapp" style="color:#25d366;"></i> <span id="footerWhatsappText">+880 1815-701085</span></p>
+        <p><i class="fas fa-map-marker-alt"></i> ঢাকা, বাংলাদেশ</p>
+        <p><i class="fas fa-clock"></i> প্রতিদিন সকাল ১০টা - রাত ১০টা</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Gadget In Budget. সর্বস্বত্ব সংরক্ষিত।</p>
+    </div>
+  </footer>
+
+  <!-- ফ্লোটিং হোয়াটসঅ্যাপ চ্যাট বাটন -->
+  <a href="https://wa.me/8801815701085" target="_blank" rel="noopener noreferrer" class="floating-whatsapp-btn" id="floatingWhatsappBtn" title="WhatsApp এ মেসেজ দিন">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="apps.js"></script>
+</body>
+</html>

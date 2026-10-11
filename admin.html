@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>অ্যাডমিন ড্যাশবোর্ড - Gadget In Budget</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- লগইন সেকশন -->
+  <div class="login-wrapper" id="loginWrapper">
+    <div class="login-card">
+      <div class="login-header">
+        <i class="fas fa-user-shield"></i>
+        <h2>অ্যাডমিন ড্যাশবোর্ড</h2>
+        <p>সিস্টেমে প্রবেশ করতে পাসওয়ার্ড দিন</p>
+      </div>
+      <form id="adminLoginForm" onsubmit="return handleAdminLogin(event)">
+        <div class="form-group">
+          <label>অ্যাডমিন পাসওয়ার্ড</label>
+          <input type="password" id="adminPassInput" placeholder="" required autofocus>
+        </div>
+        <button type="submit" class="btn-submit">লগইন করুন</button>
+        <p id="loginErrorMsg" class="error-text"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- মূল ড্যাশবোর্ড -->
+  <div class="dashboard-wrapper" id="dashboardWrapper" style="display: none;">
+    
+    <!-- টপবার -->
+    <header class="admin-topbar">
+      <div class="topbar-left">
+        <h2>অ্যাডমিন ড্যাশবোর্ড</h2>
+        <span class="session-status"><i class="fas fa-lock"></i> সেশন সক্রিয় (১৫ মিনিট নিষ্ক্রিয় থাকলে স্বয়ংক্রিয় লক হবে)</span>
+      </div>
+      <div class="topbar-right">
+        <a href="index.html" class="btn-top-view" target="_blank"><i class="fas fa-external-link-alt"></i> লাইভ শপ দেখুন</a>
+        <button class="btn-top-logout" onclick="handleLogout()" title="লগআউট"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </header>
+
+    <div class="main-body">
+      
+      <!-- ৬টি প্রধান মেনু ট্যাব -->
+      <nav class="nav-tabs">
+        <button class="tab-item active" onclick="switchAdminTab('tabProducts', event)">পণ্য ম্যানেজমেন্ট</button>
+        <button class="tab-item" onclick="switchAdminTab('tabOrders', event)">অর্ডার ও কুরিয়ার তালিকা</button>
+        <button class="tab-item" onclick="switchAdminTab('tabSocials', event)">সোশ্যাল মিডিয়া লিংক</button>
+        <button class="tab-item" onclick="switchAdminTab('tabCoupons', event)">কুপন কোড</button>
+        <button class="tab-item" onclick="switchAdminTab('tabBotDelivery', event)">বট ও ডেলিভারি সেটিংস</button>
+        <button class="tab-item" onclick="switchAdminTab('tabPassword', event)">পাসওয়ার্ড পরিবর্তন</button>
+      </nav>
+
+      <!-- ট্যাব ১: পণ্য ম্যানেজমেন্ট -->
+      <section class="tab-pane active" id="tabProducts">
+        <div class="panel-box">
+          <div class="panel-header-flex">
+            <h3 class="panel-title" id="formHeaderTitle">নতুন পণ্য যোগ করুন</h3>
+            <button type="button" id="cancelEditBtn" onclick="cancelEditMode()" style="display:none; background:#ef4444; color:#fff; border:none; padding:4px 10px; border-radius:4px; font-size:11px; cursor:pointer;">
+              এডিট বাতিল করুন
+            </button>
+          </div>
+          
+          <form id="addProductForm" onsubmit="handleSaveOrUpdateProduct(event)">
+            <!-- এডিট করার জন্য আইডি -->
+            <input type="hidden" id="editProductId" value="">
+
+            <div class="form-group">
+              <label>প্রোডাক্টের নাম *</label>
+              <input type="text" id="pName" placeholder="Wireless Earbuds Pro" required>
+            </div>
+
+            <!-- একটিমাত্র পরিচ্ছন্ন ক্যাটাগরি ও স্টক সংখ্যা ফিল্ড -->
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>ক্যাটাগরি *</label>
+                <input type="text" id="pCategory" list="catList" placeholder="যেমন: অডিও, পাওয়ারব্যাংক, এক্সেসরিজ" required>
+                <datalist id="catList"></datalist>
+              </div>
+              <div class="form-group">
+                <label>স্টক সংখ্যা (কয়টি মজুদ আছে) *</label>
+                <input type="number" id="pStockQty" placeholder="যেমন: 20" value="10" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>আসল মূল্য (টাকা)</label>
+                <input type="number" id="pOriginalPrice" placeholder="যেমন: 1500">
+              </div>
+              <div class="form-group">
+                <label>বিক্রয় মূল্য (টাকা) *</label>
+                <input type="number" id="pPrice" placeholder="যেমন: 1200" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>ছবির লিঙ্কসমূহ (একাধিক ছবির জন্য কমা ',' দিয়ে লিখুন) *</label>
+              <input type="text" id="pImages" placeholder="https://pic1.jpg, https://pic2.jpg" required>
+            </div>
+
+            <div class="form-group">
+              <label>সংক্ষিপ্ত বিবরণ *</label>
+              <textarea id="pDesc" rows="3" placeholder="পণ্যের সংক্ষিপ্ত বিবরণী ও স্পেসিফিকেশন..."></textarea>
+            </div>
+
+            <!-- ফ্রি ডেলিভারি টগল -->
+            <div class="toggle-row">
+              <span>এই নির্দিষ্ট পণ্য ফ্রি ডেলিভারি অফার</span>
+              <label class="switch">
+                <input type="checkbox" id="pFreeDelivery">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <!-- স্টক স্ট্যাটাস -->
+            <div class="form-group">
+              <label>পণ্যের স্টক স্ট্যাটাস নির্ধারণ করুন *</label>
+              <div class="radio-pill-group">
+                <label class="radio-pill in-stock">
+                  <input type="radio" name="stockStatus" value="in_stock" checked>
+                  <span>ইন স্টক</span>
+                </label>
+                <label class="radio-pill low-stock">
+                  <input type="radio" name="stockStatus" value="low_stock">
+                  <span>লো স্টক (সীমিত)</span>
+                </label>
+                <label class="radio-pill stock-out">
+                  <input type="radio" name="stockStatus" value="stock_out">
+                  <span>স্টক আউট</span>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="saveProdBtn">পণ্য সেভ করুন</button>
+          </form>
+        </div>
+
+        <!-- চলতি পণ্য তালিকা -->
+        <div class="panel-box" style="margin-top: 24px;">
+          <h3 class="panel-title">চলতি পণ্য তালিকা</h3>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>ছবি</th>
+                  <th>নাম</th>
+                  <th>ক্যাটাগরি</th>
+                  <th>দাম</th>
+                  <th>স্টক স্ট্যাটাস</th>
+                  <th style="text-align: center;">অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ট্যাব ২: অর্ডার ও কুরিয়ার তালিকা (স্মার্ট ট্র্যাকিং সহ) -->
+      <section class="tab-pane" id="tabOrders">
+        <div class="panel-box">
+          <div class="panel-header-flex">
+            <h3 class="panel-title">সকল কাস্টমার ও অর্ডার রেকর্ড (স্মার্ট স্টক ট্র্যাকিং সহ)</h3>
+            <span class="badge-total" id="orderCountBadge">মোট অর্ডার: 0</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>অর্ডার আইডি</th>
+                  <th>কাস্টমার বিবরণ</th>
+                  <th>বিল ও আইটেম</th>
+                  <th>তারিখ</th>
+                  <th>অর্ডার অবস্থা পরিবর্তন</th>
+                  <th>অ্যাকশন ও যোগাযোগ</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ট্যাব ৩: সোশ্যাল মিডিয়া ও হোয়াটসঅ্যাপ লিংক -->
+      <section class="tab-pane" id="tabSocials">
+        <div class="panel-box">
+          <h3 class="panel-title"><i class="fas fa-share-alt"></i> সোশ্যাল মিডিয়া ও হোয়াটসঅ্যাপ লিংক কনফিগারেশন</h3>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;">
+            এখানে নম্বর ও লিংক দিলে কাস্টমার সাইটের ফ্লোটিং হোয়াটসঅ্যাপ বাটন এবং ফুটারের আইকনগুলোতে সরাসরি লিংক আপডেট হয়ে যাবে।
+          </p>
+          <form onsubmit="handleSaveSocialLinks(event)">
+            <div class="form-group">
+              <label><i class="fab fa-whatsapp" style="color: #25d366;"></i> হোয়াটসঅ্যাপ নম্বর (দেশের কোড সহ, যেমন: 8801800000)</label>
+              <input type="text" id="socialWhatsapp" placeholder="88018000000">
+            </div>
+
+            <div class="form-group">
+              <label><i class="fab fa-facebook" style="color: #1877f2;"></i> ফেসবুক পেজ বা প্রোফাইল লিংক</label>
+              <input type="url" id="socialFb" placeholder="https://facebook.com/yourpage">
+            </div>
+            <div class="form-group">
+              <label><i class="fab fa-instagram" style="color: #e1306c;"></i> ইনস্টাগ্রাম প্রোফাইল লিংক</label>
+              <input type="url" id="socialInsta" placeholder="https://instagram.com/yourprofile">
+            </div>
+            <div class="form-group">
+              <label><i class="fab fa-youtube" style="color: #ff0000;"></i> ইউটিউব চ্যানেল লিংক</label>
+              <input type="url" id="socialYt" placeholder="https://youtube.com/@yourchannel">
+            </div>
+            <button type="submit" class="btn-submit">লিংক ও নম্বর সেভ করুন</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ট্যাব ৪: কুপন কোড -->
+      <section class="tab-pane" id="tabCoupons">
+        <div class="panel-box">
+          <form onsubmit="handleAddCoupon(event)">
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>কুপন কোড (ইংরেজি বড় অক্ষরে) *</label>
+                <input type="text" id="couponCode" placeholder="যেমন: EID200" style="text-transform:uppercase;" required>
+              </div>
+              <div class="form-group">
+                <label>ছাড়ের পরিমাণ (টাকা) *</label>
+                <input type="number" id="couponDiscount" placeholder="যেমন: 200" required>
+              </div>
+            </div>
+            <button type="submit" class="btn-submit">নতুন কুপন যোগ করুন</button>
+          </form>
+        </div>
+
+        <div class="panel-box" style="margin-top: 24px;">
+          <h3 class="panel-title">চলতি কুপনসমূহ</h3>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>কোড</th>
+                  <th>ছাড়</th>
+                  <th>অ্যাকশন</th>
+                </tr>
+              </thead>
+              <tbody id="couponsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ট্যাব ৫: বট ও ডেলিভারি সেটিংস -->
+      <section class="tab-pane" id="tabBotDelivery">
+        <div class="panel-box">
+          <form onsubmit="handleSaveBotDelivery(event)">
+            <div class="sub-card-box">
+              <h4 style="color:#10b981; margin-bottom:12px;"><i class="fab fa-telegram"></i> টেলিগ্রাম অর্ডার অ্যালার্ট সেটিংস</h4>
+              <div class="form-group">
+                <label>Bot Token</label>
+                <input type="text" id="settingTgToken" placeholder="7123456789:AAFknQ9...">
+              </div>
+              <div class="form-group">
+                <label>Chat ID</label>
+                <input type="text" id="settingTgChatId" placeholder="1234567890">
+              </div>
+              <button type="button" class="btn-submit" onclick="testTelegramAlert()" style="background:#1e293b; border:1px solid var(--border-color); margin-bottom:10px;">টেস্ট মেসেজ পাঠান</button>
+            </div>
+
+            <div class="form-group" style="margin-top:16px;">
+              <label>শপ ও কাস্টমার সার্ভিসের হোয়াটসঅ্যাপ নম্বর (দেশের কোড সহ)</label>
+              <input type="text" id="settingWhatsapp" placeholder="880180000000">
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label>ঢাকার ভেতর সাধারণ ডেলিভারি চার্জ (টাকা)</label>
+                <input type="number" id="chargeInside" placeholder="60" required>
+              </div>
+              <div class="form-group">
+                <label>ঢাকার বাইরে ডেলিভারি চার্জ (টাকা)</label>
+                <input type="number" id="chargeOutside" placeholder="120" required>
+              </div>
+            </div>
+
+            <div class="toggle-row">
+              <span>ঢাকার ভেতর ডেলিভারি সম্পূর্ণ ফ্রি</span>
+              <label class="switch">
+                <input type="checkbox" id="freeInside">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <div class="toggle-row">
+              <span>সারা বাংলাদেশ ডেলিভারি সম্পূর্ণ ফ্রি</span>
+              <label class="switch">
+                <input type="checkbox" id="freeAllBd">
+                <span class="slider round"></span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn-submit" style="margin-top:14px;">সেটিংস সংরক্ষণ করুন</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ট্যাব ৬: পাসওয়ার্ড পরিবর্তন -->
+      <section class="tab-pane" id="tabPassword">
+        <div class="panel-box" style="max-width: 520px;">
+          <form onsubmit="handleChangePassword(event)">
+            <div class="form-group">
+              <label>বর্তমান পাসওয়ার্ড *</label>
+              <input type="password" id="curPassword" placeholder="বর্তমান পাসওয়ার্ড লিখুন" required>
+            </div>
+            <div class="form-group">
+              <label>নতুন পাসওয়ার্ড *</label>
+              <input type="password" id="newPassword" placeholder="কমপক্ষে ৪ অক্ষরের পাসওয়ার্ড" required>
+            </div>
+            <div class="form-group">
+              <label>নতুন পাসওয়ার্ড নিশ্চিত করুন *</label>
+              <input type="password" id="confirmNewPassword" placeholder="আবার লিখুন" required>
+            </div>
+            <button type="submit" class="btn-submit">পাসওয়ার্ড আপডেট করুন</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

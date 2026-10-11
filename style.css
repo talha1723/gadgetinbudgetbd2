@@ -1,0 +1,852 @@
+:root {
+  --bg-color: #0b0f19;
+  --card-bg: #111827;
+  --accent-blue: #2563eb;
+  --accent-hover: #1d4ed8;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --danger-red: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', 'Hind Siliguri', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden !important;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+/* হেডার */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 15, 25, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand-logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  text-decoration: none;
+}
+.brand-logo span { color: #60a5fa; }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.badge-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--danger-red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* হিরো ব্যানার */
+.hero-section {
+  padding: 16px;
+}
+
+.hero-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 100%);
+  padding: 28px 16px;
+  border-radius: 16px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-content h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.hero-content p {
+  color: #cbd5e1;
+  font-size: 13px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.hero-btn {
+  display: inline-block;
+  background: var(--accent-blue);
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 99px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+/* ক্যাটাগরি পিলস */
+.category-section {
+  padding: 0 16px 16px;
+}
+
+.category-tabs {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.category-tabs::-webkit-scrollbar { display: none; }
+
+.cat-pill {
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cat-pill.active {
+  background: var(--accent-blue);
+  color: #fff;
+  border-color: var(--accent-blue);
+}
+
+/* প্রোডাক্ট সেকশন */
+.products-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+.section-header h2 {
+  font-size: 16px;
+  margin-bottom: 14px;
+}
+
+/* ডেস্কটপ ও ট্যাবলেট গ্রিড */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.product-image-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.badge.discount {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: var(--danger-red);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+.product-info {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.category-tag {
+  font-size: 9px;
+  color: #60a5fa;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.product-title {
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 600;
+  height: 32px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 6px;
+}
+
+.price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.current-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.old-price {
+  font-size: 11px;
+  color: #94a3b8;
+  text-decoration: line-through;
+}
+
+.card-buttons-group {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
+.buy-now-btn {
+  flex: 1.2;
+  background: var(--accent-blue);
+  color: #ffffff;
+  border: none;
+  padding: 7px 4px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+}
+
+.add-to-cart-btn {
+  flex: 0.8;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 7px 4px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* কুইক ভিউ পপআপ */
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+.product-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.product-quick-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 90%;
+  max-width: 780px;
+  max-height: 90vh;
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  z-index: 1051;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+.product-quick-modal.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-close-icon {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: #1e293b;
+  border: none;
+  color: #94a3b8;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+  padding: 20px;
+}
+
+.modal-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.main-modal-img-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-modal-img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.modal-thumbnails {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.thumb-img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 3px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+.thumb-img.active {
+  border-color: #3b82f6;
+}
+
+.modal-product-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-category {
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.modal-stock-status {
+  font-size: 12px;
+  font-weight: 600;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+
+.modal-prices {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.modal-current-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.modal-old-price {
+  font-size: 13px;
+  color: #ef4444;
+  text-decoration: line-through;
+}
+
+.modal-description {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.5;
+  white-space: pre-line;
+  max-height: 150px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.modal-cart-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: auto;
+}
+
+/* কার্ট ও উইশলিস্ট ড্রয়ার */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+.cart-overlay.active { opacity: 1; visibility: visible; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: -360px;
+  width: 100%;
+  max-width: 320px;
+  height: 100vh;
+  background: #111827;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+}
+.cart-drawer.active { right: 0; }
+
+.cart-header {
+  padding: 14px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.close-cart-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.cart-items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cart-item {
+  display: flex;
+  gap: 8px;
+  background: #1e293b;
+  padding: 8px;
+  border-radius: 6px;
+  align-items: center;
+}
+
+.cart-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.cart-item-details { flex: 1; }
+.cart-item-details h4 { font-size: 11px; margin-bottom: 2px; }
+.cart-item-details .price { font-size: 12px; font-weight: 700; color: #60a5fa; }
+
+.cart-footer {
+  padding: 14px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+.checkout-btn, .confirm-order-btn {
+  width: 100%;
+  background: var(--accent-blue);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+}
+.confirm-order-btn { background: #16a34a; }
+
+/* চেকআউট ও ইনভয়েস মডাল */
+.checkout-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s;
+  padding: 12px;
+}
+.checkout-modal.active {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.modal-content {
+  background: #111827;
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  width: 100%;
+  max-width: 420px;
+  padding: 16px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.order-summary-box {
+  background: #1e293b;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 12px;
+}
+
+.form-group { margin-bottom: 10px; }
+.form-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.form-group input, .form-group textarea {
+  width: 100%;
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 12px;
+  outline: none;
+}
+
+/* ইনভয়েস মেমো */
+.invoice-modal-card {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  max-width: 500px !important;
+  padding: 16px !important;
+}
+
+.invoice-container {
+  background: #ffffff !important;
+  color: #1e293b !important;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'Hind Siliguri', 'Inter', sans-serif;
+  border: 1px solid #e2e8f0;
+}
+
+#invoicePrintArea, 
+#invoicePrintArea * {
+  color: #1e293b !important;
+}
+
+#invoicePrintArea .inv-status {
+  background: #dcfce7 !important;
+  color: #166534 !important;
+}
+
+/* ফুটার */
+.site-footer {
+  background: #060911;
+  border-top: 1px solid var(--border-color);
+  padding: 30px 16px 20px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.2fr 1.2fr;
+  gap: 20px;
+}
+
+.footer-logo { font-size: 16px; margin-bottom: 8px; }
+.footer-logo span { color: #60a5fa; }
+.footer-col h4 { font-size: 13px; margin-bottom: 10px; }
+.footer-col p { color: var(--text-muted); font-size: 12px; line-height: 1.5; margin-bottom: 6px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 6px; }
+.footer-col ul li a { color: var(--text-muted); text-decoration: none; font-size: 12px; }
+.footer-socials { display: flex; gap: 8px; margin-top: 12px; }
+.footer-socials a {
+  width: 30px;
+  height: 30px;
+  background: #1e293b;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 20px auto 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  font-size: 11px;
+  color: #64748b;
+}
+
+/* ফ্লোটিং হোয়াটসঅ্যাপ বাটন */
+.floating-whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 16px;
+  width: 46px;
+  height: 46px;
+  background-color: #25d366;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  z-index: 997;
+  text-decoration: none;
+}
+
+/* ==========================================================
+   স্মার্টফোন ও মোবাইল রেসপনসিভ ফিক্স (Maximum 768px Screens)
+   ========================================================== */
+@media (max-width: 768px) {
+  /* মোবাইলে স্পষ্ট ২ কলাম গ্রিড */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .product-card {
+    border-radius: 10px;
+  }
+
+  .product-image-wrap {
+    padding: 8px;
+  }
+
+  .product-info {
+    padding: 8px;
+  }
+
+  .product-title {
+    font-size: 11px;
+    height: 30px;
+    margin-bottom: 4px;
+  }
+
+  .current-price {
+    font-size: 13px;
+  }
+
+  .old-price {
+    font-size: 10px;
+  }
+
+  .card-buttons-group {
+    gap: 4px;
+  }
+
+  .buy-now-btn {
+    padding: 6px 2px;
+    font-size: 10px;
+    border-radius: 4px;
+  }
+
+  .add-to-cart-btn {
+    padding: 6px 2px;
+    font-size: 10px;
+    border-radius: 4px;
+  }
+
+  /* মোবাইলে সিঙ্গেল কলাম ফুটার */
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  /* কুইক ভিউ পপআপ ফিক্স */
+  .quick-modal-body {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .modal-title {
+    font-size: 14px;
+  }
+
+  .floating-whatsapp-btn {
+    bottom: 16px;
+    right: 14px;
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+  }
+}/* মোবাইল নম্বর কান্ট্রি কোড প্রিফিক্স ডিজাইন */
+.phone-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #1e293b;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.country-prefix {
+  background: rgba(255, 255, 255, 0.05);
+  color: #60a5fa;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 8px 12px;
+  border-right: 1px solid var(--border-color);
+  user-select: none;
+}
+
+.phone-input-wrap input {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 8px 10px !important;
+  flex: 1;
+  color: #fff;
+  font-size: 13px;
+}
+
+.phone-input-wrap:focus-within {
+  border-color: var(--accent-blue);
+}
