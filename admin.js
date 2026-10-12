@@ -42,6 +42,7 @@ function resetInactivityTimer() {
   }, 15 * 60 * 1000);
 }
 
+// পেজ লোড ইভেন্ট লিসেনার
 document.addEventListener('DOMContentLoaded', () => {
   if (!db && window.db) db = window.db;
   listenToAdminPassword();
@@ -55,7 +56,32 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('keypress', resetInactivityTimer);
 });
 
-// লগইন হ্যান্ডলার
+// লগইন স্ক্রিন শো করা (পাসওয়ার্ড ইনপুট ফাঁকা রাখা)
+function showLogin() {
+  var loginWrap = document.getElementById('loginWrapper');
+  var dashWrap = document.getElementById('dashboardWrapper');
+  if (loginWrap) loginWrap.style.display = 'flex';
+  if (dashWrap) dashWrap.style.display = 'none';
+
+  var passInput = document.getElementById('adminPassInput');
+  if (passInput) {
+    passInput.value = '';
+  }
+}
+
+// লগআউট হ্যান্ডলার
+window.handleLogout = function() {
+  sessionStorage.removeItem('gib_admin_auth');
+  
+  var passInput = document.getElementById('adminPassInput');
+  if (passInput) {
+    passInput.value = '';
+  }
+  
+  showLogin();
+};
+
+// লগইন সাবমিট হ্যান্ডলার
 window.handleAdminLogin = function(e) {
   if (e) e.preventDefault();
   var inputElem = document.getElementById('adminPassInput');
@@ -73,18 +99,7 @@ window.handleAdminLogin = function(e) {
   return false;
 };
 
-window.handleLogout = function() {
-  sessionStorage.removeItem('gib_admin_auth');
-  showLogin();
-};
-
-function showLogin() {
-  var loginWrap = document.getElementById('loginWrapper');
-  var dashWrap = document.getElementById('dashboardWrapper');
-  if (loginWrap) loginWrap.style.display = 'flex';
-  if (dashWrap) dashWrap.style.display = 'none';
-}
-
+// ড্যাশবোর্ড স্ক্রিন শো করা
 function showDashboard() {
   var loginWrap = document.getElementById('loginWrapper');
   var dashWrap = document.getElementById('dashboardWrapper');

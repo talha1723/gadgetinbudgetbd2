@@ -21,14 +21,17 @@
         <h2>অ্যাডমিন ড্যাশবোর্ড</h2>
         <p>সিস্টেমে প্রবেশ করতে পাসওয়ার্ড দিন</p>
       </div>
-      <form id="adminLoginForm" onsubmit="return handleAdminLogin(event)">
-        <div class="form-group">
-          <label>অ্যাডমিন পাসওয়ার্ড</label>
-          <input type="password" id="adminPassInput" placeholder="" required autofocus>
-        </div>
-        <button type="submit" class="btn-submit">লগইন করুন</button>
-        <p id="loginErrorMsg" class="error-text"></p>
-      </form>
+      <form onsubmit="handleAdminLogin(event)" autocomplete="off">
+  <input 
+    type="password" 
+    id="adminPassInput" 
+    placeholder="পাসওয়ার্ড লিখুন" 
+    required 
+    autocomplete="new-password"
+    value=""
+  >
+  <button type="submit">লগইন করুন</button>
+</form>
     </div>
   </div>
 
