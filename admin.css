@@ -290,4 +290,72 @@ input:checked + .slider:before { transform: translateX(20px); }
 @media (max-width: 768px) {
   .form-grid-2 { grid-template-columns: 1fr; }
   .radio-pill-group { grid-template-columns: 1fr; }
+}/* অ্যাডমিন লগইন বক্স মডার্ন সিএসএস ফিক্স */
+.login-form {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.login-input-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 6px;
+}
+
+.login-label {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-align: center;
+}
+
+.login-pass-input {
+  width: 100% !important;
+  background: #1e293b !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  padding: 12px 14px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-pass-input:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2) !important;
+}
+
+.login-error-text {
+  color: #ef4444;
+  font-size: 13px;
+  min-height: 16px;
+  text-align: center;
+}
+
+.login-submit-btn {
+  width: 100% !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-sizing: border-box !important;
+}
+
+.login-submit-btn:hover {
+  background: #1d4ed8 !important;
+}
+
+.login-submit-btn:active {
+  transform: scale(0.98);
 }
